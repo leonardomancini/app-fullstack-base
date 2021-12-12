@@ -18,19 +18,80 @@
                 </div>
             </nav>	
             <!-- Page Body -->
-            <div class="container">
-                <br/>
-                <h3>Smart Home Web Client!</h3>
-                <br/>
-                <div class="row">
-                    <div class="input-field col s12 m12 l12 xl12">
-                        <textarea id="textarea_1" class="materialize-textarea" style="height: 150px;" readonly></textarea>
-                    </div>
-                    <div class="col s4 m4 l2 xl2">
-                        <button class="btn waves-effect waves-light button-view" onclick="SayHello();" name="hello_button">PRESS ME</button>
+            <div class="container" id="spa_container">
+                <a id="dispositivos"></a>
+                <h4>Dispositivos</h4>
+                <div class="containter">
+                  
+                    <a class="waves-effect waves-teal btn-flat modal-trigger" id="btnNewDevice">Agregar</a>
+                    
+                    <div class = "row">
+                        
+                        <div id="devicesList" class="collection">
+                
+                        </div>
+                        
+        
+
                     </div>
                 </div>
-            </div>	
+                  <div id="create_modal" class="modal">
+                    <div class="modal-content">
+                      <h4>Crear dispositivo</h4>
+                      <div class="input-field col s6">
+                        <input  id="create_dev_name" type="text" class="validate">
+                        <label for="create_dev_name">nombre</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input  id="create_dev_description" type="text" class="validate">
+                        <label for="create_dev_description">descripcion</label>
+                      </div>
+
+                      <div class="input-field">
+                        <select id="create_device_type">
+                            <option value="1">ON/OFF</option>
+                            <option value="0">Regulable</option>
+                        </select>
+                        <label>Tipo de dispositivo</label>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="create_device_cancel" class="modal-close waves-effect waves-green btn-flat">CANCELAR</a>
+                        <a id="create_device_save" class="modal-close waves-effect waves-green btn-flat">GUARDAR</a>
+                    </div>
+                  </div>
+
+
+                  <div id="update_modal" class="modal">
+                    <div class="modal-content">
+                      <h4>Actualizar dispositivo</h4>
+                      <div class="input-field col s6">
+                        <input  id="txt_dev_name" type="text" class="validate">
+                        <label for="txt_dev_name">nombre</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input  id="txt_dev_description" type="text" class="validate">
+                        <label for="txt_dev_description">descripcion</label>
+                      </div>
+
+                      <div class="input-field">
+                        <select id="select_device_type">
+                            <option value="1">ON/OFF</option>
+                            <option value="0">Regulable</option>
+                        </select>
+                        <label>Tipo de dispositivo</label>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="upd_device_cancel" class="modal-close waves-effect waves-green btn-flat">CANCELAR</a>
+                        <a id="upd_modify_device_save" class="modal-close waves-effect waves-green btn-flat">GUARDAR</a>
+                    </div>
+                  </div>
+            </div>
+
+           
+                      
+           
         </main>
 		<!-- Page Footer -->
         <footer class="page-footer" style="background-color:#124580">
@@ -52,7 +113,9 @@
             </div>
         </footer>
 		<!--JavaScript at end of body for optimized loading-->
-		<script type="text/javascript" src="js/materialize.min.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="static/js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/RestFramework.js"></script>
+        <script type="text/javascript" src="js/device.js"></script>
     </body>
   </html>

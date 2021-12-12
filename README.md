@@ -156,17 +156,38 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 
 <details><summary><b>Mira los detalles de implementación</b></summary><br>
 
+### Obtener dispositivos
+
+Al inicializarse la pagina se listan todos los dispositivos del sistema, por cada uno se dibuja una card en la cual se muestra el nombre, el detalle el cual puede verse clickeando en los 3 puntos y las opciones de actualizar, eliminar y cambiar de estado.
+
 ### Agregar un dispositivo
 
-Completá los pasos para agregar un dispositivo desde el cliente web.
+Para agregar un dispositivo nuevo hacer click en el boton "Agregar" qu se encuentra en la parte superior. Se abrira una 
+ventana modal en la que se ingresará:
+    -Nombre
+    -Descripcion
+    -Tipo (Regulable, ON/OFF)
+    -Por defecto el estado se crea en 0
+
+### Actualizar un dispositivo
+
+Para actualizar los datos en cada card se encuentra la opcion "Actualizar", al presionarla se abrira una modal que nos permite modificar: Nombre, Descripcion y tipo, luego confgirmar
+
+### Actualizar estado de un dispositivo
+En cada card, para cada device, se encuentra un switch (ON/OFF o un slider) segun el tipo de dispositivo. Luego de cambiar el valor se debe confirmar con el boton que tiene el icono de un tilde
+
+### Eliminar un dispositivo
+En cada card, para cada dispositivo, se encuentra el boton eliminar, esto eliminara del sistema al device
+
 
 ### Frontend
 
-Completá todos los detalles sobre cómo armaste el frontend, sus interacciones, etc.
+El frontend está desarrollado usando HTML, typescript y css. Se utilizan elementos de materialize (cards, modals y floatting buttons). La conunicación con el
+backend es mediante AJAX para las llamadas a las api REST y se usan listeners para procesar las respuestas
 
 ### Backend
 
-Completá todos los detalles de funcionamiento sobre el backend, sus interacciones con el cliente web, la base de datos, etc.
+La base de datos mysql permite almacenar los diferentes devices del sistema y se permite obtener funcionalidad mediante una api rest realizada con express y node js.   Para la interaccion con la base se utiliza la clase mysql-connector que nos brinda la conexion hacia la base y nos permite ejecutar sentencias SQL
 
 <details><summary><b>Ver los endpoints disponibles</b></summary><br>
 
@@ -174,23 +195,120 @@ Completá todos los endpoints del backend con los metodos disponibles, los heade
 
 1) Devolver el estado de los dispositivos.
 
-```json
-{
-    "method": "get",
-    "request_headers": "application/json",
-    "request_body": "",
-    "response_code": 200,
-    "request_body": {
-        "devices": [
-            {
-                "id": 1,
-                "status": true,
-                "description": "Kitchen light"
-            }
-        ]
-    },
-}
-``` 
+URL: /devices
+Metodo: GET
+
+ Recibe opcionalmente parametro para ordenar ascendente/descendente
+ 
+ Codigos de estado:
+  -500: Error interno al conectarse a la base
+  -200: Funcionamiento correcto
+ 
+  Body Response:
+   Array de json con los datos de cada device:
+       [{ id: number, 
+        name: string, 
+        description: string, 
+        state: number, 
+        type: number (1-On/Off, 2-Regulable)}]
+
+2) Devolver el estado de un dispositivo.
+
+URL: /devices:id
+Metodo: GET
+
+  PathParam: Id del dispositivo
+  
+  Codigos de estado:
+   -500: Error interno al conectarse a la base
+   -200: Funcionamiento correcto
+   -404: No existe el device
+  
+  Body Response:
+   Json con los datos de cada device:
+        {id: number, 
+        name: string, 
+        description: string, 
+        state: number, 
+        type: number (1-On/Off, 2-Regulable)}
+
+3) Eliminar un device.
+
+URL: /devices:id
+Metodo: DELETE
+
+ PathParam: Id del dispositivo
+ 
+  Codigos de estado:
+   -500: Error interno al conectarse a la base
+   -200: Funcionamiento correcto
+   -404: No existe el device
+  
+  Body Response:
+   empty
+
+4) Crear un device.
+
+URL: /devices
+Metodo: POST
+
+  
+  Codigos de estado:
+   -500: Error interno al conectarse a la base
+   -201: Se creo un device exitosamente
+  Request Body:
+        {name: string, 
+        description: string, 
+        state: number, 
+        type: number (1-On/Off, 2-Regulable)}
+  
+  Body Response:
+   Json con los datos del device creado:
+        {id: number, 
+        name: string, 
+        description: string, 
+        state: number, 
+        type: number (1-On/Off, 2-Regulable)}
+5) Actualizar datos de un device.
+
+URL: /devices/:id
+Metodo: PUT
+
+ PathParam: Id del dispositivo    
+   Codigos de estado:
+   -500: Error interno al conectarse a la base
+   -404: No existe device
+   -200: Se actualizo un device exitosamente
+  Request Body:
+        {name: string, 
+        description: string, 
+        state: number, 
+        type: number (1-On/Off, 2-Regulable)}
+  
+  Response Body:
+   Json con los datos del device actualizado:
+        {id: number, 
+        name: string, 
+        description: string, 
+        state: number, 
+        type: number (1-On/Off, 2-Regulable)}
+6) Actualizar el estado de un device                           
+  URL: device/:id/state
+  Metodo: PATCH
+  
+  PathParam: Id del dispositivo
+  Codigos de estado:
+   -500: Error interno al conectarse a la base
+   -404: No existe device
+   -200: Se actualizo un device exitosamente
+  Request Body:
+        state: string
+        
+  
+  Response Body:
+   Json con los datos del device actualizado:
+        id: number, 
+         state: number
 
 </details>
 
